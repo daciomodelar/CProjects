@@ -35,7 +35,7 @@ int main(void) {
   peq = queue; /* peq = ponteiro para o fim da FILA vazia*/
   soq = queue; /* soq = ponteiro para o inicio da FILA */
 
-  TValidateInput validInput = {.message = "", .isValid = 0, .value = 0};
+  TValidateInput validInput = {.message = "\0", .isValid = 0, .value = 0};
   char input[50];
 
   while (1) {
@@ -77,6 +77,7 @@ int main(void) {
   return 0;
 }
 
+/* Adiciona um elemento à fila */
 void enqueue(unsigned int n) {
   if (peq == queue + SIZE) {	
     if (soq > queue) {
@@ -110,14 +111,14 @@ unsigned int dequeue(void) {
 }
 
 void print_queue(void) {
-  printf("soq->%p\n", soq);
-  printf("peq->%p\n", peq);
+  printf("soq->%p\n", (void *)soq);
+  printf("peq->%p\n", (void *)peq);
   printf("|%-2s|%-10s|%-20s|\n", "#", "Valor", "Ponteiro");
   printf("-----------------------------------\n");
   unsigned int *i;
-  unsigned int idx = 1; // Índice para exibição, começando do topo
+  int idx = 1; // Índice para exibição, começando do topo
   for (i = soq; i < peq; i++) {
-    printf("|%2d|%10u|%20p|\n", idx++, *i, i);
+    printf("|%2d|%10u|%20p|\n", idx++, *i, (void *)i);
   }
   printf("\n\n");
 }
