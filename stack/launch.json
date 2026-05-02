@@ -6,7 +6,6 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/stack/stack",
-            "cwd": "${workspaceFolder}",
             "MIMode": "gdb",
             "setupCommands": [
                 {
