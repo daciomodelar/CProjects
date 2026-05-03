@@ -22,7 +22,7 @@ void main() {
 
   struct Campeonato camp1;
   strcpy(camp1.nome, "Brasileirão");
-  camp1.ano = 2024;
+  camp1.ano = 2026;
   camp1.qtdeTimes = 0;
 
   do {
@@ -37,11 +37,13 @@ void main() {
     camp1.qtdeTimes++;
 
     if (!lista) {
-      printf("Primeiro Item");
       lista = novoTime;
     } else {
-
-      lista->next = novoTime;
+      TClube *item = lista;
+      while(item->next) {
+        item = item->next;
+      }
+      item->next = novoTime;
     }
     // lista = novoTime;
 

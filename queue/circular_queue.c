@@ -1,4 +1,5 @@
-//Para compilar: gcc -g queue/queue.c lib/valid_input.c -Ilib -o queue/queue
+// Para compilar: gcc -g queue/circular_queue.c lib/valid_input.c -Ilib -o
+// queue/circular_queue
 #include "valid_input.h"
 #include <ctype.h>
 #include <errno.h>
@@ -11,6 +12,7 @@ const int SIZE = 10;
 
 unsigned int *queue, *peq, *soq;
 unsigned int dequeueValue;
+int count = 0; // Contador para controlar o número de elementos na fila
 
 int errQueueOverflow = 0;
 int errEmptyQueue = 0;
@@ -42,7 +44,7 @@ int main(void) {
   while (1) {
 
     system("clear");
-    printf("*** FILA de %d elementos: Enqueue e Dequeue *** \n", SIZE);
+    printf("*** FILA CIRCULAR de %d elementos: Enqueue e Dequeue *** \n", SIZE);
     printf("( D ) Retira um valor(Dequeue)\n");
     printf("( X ) Sair\n\n");
 
@@ -80,47 +82,66 @@ int main(void) {
 
 /* Adiciona um elemento à fila */
 void enqueue(unsigned int n) {
-  if (peq == queue + SIZE) {	
-    if (soq > queue) {
-      int elementos = peq - soq;
-      memmove(queue, soq, elementos * sizeof(unsigned int));
-      soq = queue;
-      peq = queue + elementos;
-    } else {
-      errQueueOverflow = 1;
-      return;
-    }
+  if (count == SIZE) {
+    errQueueOverflow = 1;
+    return;
   }
   *peq = n;
   peq++;
+
+  if (peq == queue + SIZE) {
+    peq = queue; // volta pro início
+  }
+
+  count++;
 }
 
 unsigned int dequeue(void) {
-  if (peq == soq) {
-    errEmptyQueue = 1; // Fila vazia
+  
+  if (count == 0) {
+    errEmptyQueue = 1;
     return 0;
   }
-  unsigned int value = *soq; // Armazena o valor a ser retornado
-  soq++;
-  printDequeueValue = 1;
-  /* Reset quando esvaziar */
-  if (soq == peq) {
-    soq = queue;
-    peq = queue;
+
+  unsigned int value = *soq;
+
+  if (++soq == queue + SIZE) {
+    soq = queue; // volta pro início
   }
+
+  count--;
+  if (count == 0) {
+    peq = queue;
+    soq = queue;
+  }
+
+  printDequeueValue = 1;
+
   return value;
 }
 
 void print_queue(void) {
   printf("soq->%p\n", (void *)soq);
   printf("peq->%p\n", (void *)peq);
+
   printf("|%-2s|%-10s|%-20s|\n", "#", "Valor", "Ponteiro");
   printf("-----------------------------------\n");
-  unsigned int *i;
-  int idx = 1; // Índice para exibição, começando do topo
-  for (i = soq; i < peq; i++) {
-    printf("|%2d|%10u|%20p|\n", idx++, *i, (void *)i);
+
+  if (count == 0) {
+    printf("(fila vazia)\n\n");
+    return;
   }
+
+  unsigned int *ptr = soq;
+
+  for (int i = 0; i < count; i++) {
+    printf("|%2d|%10u|%20p|\n", i + 1, *ptr, (void *)ptr);
+
+    if (++ptr == queue + SIZE) {
+      ptr = queue; // circular
+    }
+  }
+
   printf("\n\n");
 }
 
@@ -136,8 +157,13 @@ void print_queue_exception(void) {
 }
 
 void print_dequeue(const unsigned int dequeueValue) {
+
   if (printDequeueValue) { // Verifica se a fila não está vazia
-    printf("Retirado: %u->%p\n\n", dequeueValue, soq - 1);
+    unsigned int *last = soq - 1;
+    if (soq == queue) {
+      last = queue + SIZE - 1;
+    }
+    printf("Retirado: %u->%p\n\n", dequeueValue, (void *)last);
     printDequeueValue =
         0; // Reseta a flag para não imprimir novamente até a próxima retirada
   }

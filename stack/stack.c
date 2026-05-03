@@ -10,11 +10,11 @@
 const int SIZE = 10;
 
 unsigned int *stack, *pss, *tos;
+unsigned int popValue = 0;
 
 int errStackOverflow = 0;
 int errEmptyStack = 0;
 int printPopValue = 0;
-unsigned int popValue = 0;
 
 /** Prototipos das Funções */
 void push(unsigned int n);

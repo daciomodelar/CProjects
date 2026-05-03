@@ -8,7 +8,7 @@
 
 TValidateInput validate_input(const char *input) {
 
-  TValidateInput result = {.message = "", .isValid = 0, .value = 0};
+  TValidateInput result = {.message = "\0", .isValid = 0, .value = 0};
 
   if (input == NULL || *input == '\0') {
     snprintf(result.message, sizeof(result.message),
