@@ -14,9 +14,10 @@ typedef struct club {
 void clear_screen(void);
 
 void add(TClub *new_club, TClub **list);
+void add_start(TClub *new_club, TClub **list);
 void print_list(TClub *list);
 void sort_list(TClub *list);
-void sort_list_pointer(TClub *list);
+TClub *get_sorted_list(TClub *list);
 
 int main(void) {
 
@@ -24,6 +25,8 @@ int main(void) {
   TClub *list = NULL;
 
   do {
+    
+		clear_screen();
 
     char nome[20];
     int pontos;
@@ -38,13 +41,20 @@ int main(void) {
     getchar();
 
     TClub *new_club = (TClub *)malloc(sizeof(TClub));
+
+    if (!new_club) {
+      printf("Erro de memória");
+      return 1;
+    }
+
     strcpy(new_club->nome, nome);
     new_club->pontos = pontos;
     new_club->next = NULL;
 
-    add(new_club, &list);
-    clear_screen();
+    add_start(new_club, &list);
     print_list(list);
+    // TClub *s_list = get_sorted_list(list);
+    // print_list(s_list);
 
     printf("0 - Sair\n1 - Continuar\n> ");
     fgets(op, sizeof(op), stdin);
@@ -63,7 +73,6 @@ int main(void) {
 }
 
 void add(TClub *new_club, TClub **list) {
-
   if (!*list) {
     *list = new_club;
   } else {
@@ -76,40 +85,6 @@ void add(TClub *new_club, TClub **list) {
 }
 
 void sort_list(TClub *list) {
-  if (!list)
-    return;
-
-  TClub *current = list;
-  while (current) {
-    TClub *max_current = current;
-    TClub *next = current->next;
-
-    while (next) {
-      if (next->pontos > max_current->pontos) {
-        max_current = next;
-      }
-      next = next->next;
-    }
-
-    if (max_current != current) {
-      char tempNome[20];
-      int tempPontos;
-
-      strcpy(tempNome, current->nome);
-      tempPontos = current->pontos;
-
-      strcpy(current->nome, max_current->nome);
-      current->pontos = max_current->pontos;
-
-      strcpy(max_current->nome, tempNome);
-      max_current->pontos = tempPontos;
-    }
-
-    current = current->next;
-  }
-}
-
-void sort_list_pointer(TClub *list) {
   if (!list)
     return;
 
@@ -139,7 +114,30 @@ void sort_list_pointer(TClub *list) {
   }
 }
 
+void add_start(TClub *new_club, TClub **list) {
+  TClub *new = (TClub *)malloc(sizeof(TClub));
+  strcpy(new->nome, new_club->nome);
+  new->pontos = new_club->pontos;
+  if (!*list) {
+    *list = new_club;
+  } else {
+		new->next = *list;
+    *list = new;
+  }
+}
+
+TClub *get_sorted_list(TClub *list) {
+	TClub *sorted_list = NULL;
+  if (!list)
+    return NULL;
+	sort_list(list);
+  
+
+  return sorted_list;
+}
+
 void print_list(TClub *list) {
+  printf("List -> %p\n", (void *)list);
   TClub *aux = list;
   printf("|%-2s|%-20s|%-10s|%-20s|\n", "#", "Clube", "Pontos", "Pointer");
   int pos = 1;
