@@ -43,13 +43,13 @@ void add_sorted(TClub *new_club, TClub **list) {
 }
 
 void swap_item(TClub *_target, TClub *_source) {
-      TClub temp = *_source;
-      *_source = *_target;
-      *_target = temp;
+  TClub temp = *_source;
+  *_source = *_target;
+  *_target = temp;
 
-      TClub *tempNext = _target->next;
-      _target->next = _source->next;
-      _source->next = tempNext;
+  TClub *tempNext = _target->next;
+  _target->next = _source->next;
+  _source->next = tempNext;
 }
 
 void sort_list(TClub *list) {
@@ -68,33 +68,60 @@ void sort_list(TClub *list) {
       next = next->next;
     }
 
-		if (max_current != current) {
-			swap_item(current, max_current);
-		}
+    if (max_current != current) {
+      swap_item(current, max_current);
+    }
 
     current = current->next;
   }
 }
 
-void print_list(TClub *list) { 
-  printf("List -> %p\n", (void *)list);
+void print_list(TClub *list) {
+
   TClub *aux = list;
-  printf("|%-2s|%-20s|%-10s|%-20s|\n", "#", "Clube", "Pontos", "Pointer");
-  int pos = 1;
+
+  printf("Pointer Table -> %p\n", (void *)aux);
+
+  printf("|%-2s|%-25s|%-10s|%-20s|\n", "#", "Clube", "Pontos", "Pointer");
+  printf("--------------------------------------------------------------\n");
+
+  short int pos = 1;
+
   while (aux) {
-    printf("|%-2d|%-20s|%10d|%20p|\n", pos++, aux->nome, aux->pontos,
-           (void *)aux);
+
+    printf("|%2d|", pos++);
+
+    printf("%-25s|", aux->nome);
+
+    printf("%10d|", aux->pontos);
+
+    printf("%20p|\n", (void *)aux);
+
     aux = aux->next;
   }
-  printf("\n");
 }
 
 void free_list(TClub *list) {
-	TClub *aux = list;
-	while(aux) {
-		TClub * _free = aux;
-		printf("Free -> %p\n", _free);
-		free(_free);
-		aux = aux->next;
-	}
+  TClub *aux = list;
+  TClub *_free = NULL;
+  while (aux) {
+    _free = aux;
+    // printf("free->%p\n",_free);
+    // printf("free_content1->%s\n",_free->nome);
+    free(_free);
+    // printf("free_content2->%s\n",_free->nome);
+    aux = aux->next;
+  }
+}
+
+TClub *get_new_club(char *nome, int pontos) {
+  TClub *new_club = (TClub *)malloc(sizeof(TClub));
+  if (!new_club) {
+    printf("Erro de memória");
+    return NULL;
+  }
+  strcpy(new_club->nome, nome);
+  new_club->pontos = pontos;
+  new_club->next = NULL;
+  return new_club;
 }

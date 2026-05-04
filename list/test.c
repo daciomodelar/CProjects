@@ -1,35 +1,48 @@
 #include "table.h"
+#include "utils.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 int main(void) {
 
+  TClub clubs[] = {
+      {.nome = "Vasco", .pontos = 59},
+      {.nome = "Ceará", .pontos = 45},
+      {.nome = "Palmeiras", .pontos = 68},
+      {.nome = "São Paulo", .pontos = 55},
+      {.nome = "Botafogo", .pontos = 61},
+      {.nome = "Fluminense", .pontos = 58},
+      {.nome = "Grêmio", .pontos = 64},
+      {.nome = "Internacional", .pontos = 52},
+      {.nome = "Atlético Mineiro", .pontos = 66},
+      {.nome = "Flamengo", .pontos = 28},
+      {.nome = "Cruzeiro", .pontos = 47},
+      {.nome = "Bahia", .pontos = 50},
+      {.nome = "Fortaleza", .pontos = 57},
+      {.nome = "Corinthians", .pontos = 49},
+      {.nome = "Athletico Paranaense", .pontos = 59},
+      {.nome = "Bragantino", .pontos = 54},
+      {.nome = "Juventude", .pontos = 38},
+      {.nome = "Goiás", .pontos = 41},
+      {.nome = "Coritiba", .pontos = 36},
+      {.nome = "América Mineiro", .pontos = 44},
+  };
+
+  int _length = sizeof(clubs) / sizeof(clubs[0]);
+  TClub *c = clubs;
+  TClub *end = clubs + _length;
+
   TClub *list = NULL;
 
-  TClub club1 = {.nome = "Vasco", .pontos = 25};
-  TClub club2 = {.nome = "Botafogo", .pontos = 24};
-  TClub club3 = {.nome = "Ceara Sport Club", .pontos = 32};
-  TClub club4 = {.nome = "Santos", .pontos = 14};
-
-  TClub clubs[4] = {club1, club2, club3, club4};
-
-  TClub *c = clubs;
-  TClub *end = clubs + 4;
-
   while (c < end) {
-    TClub *new_club = (TClub *)malloc(sizeof(TClub));
-    strcpy(new_club->nome, c->nome);
-    new_club->pontos = c->pontos;
-    new_club->next = NULL;
-
-    add_start(new_club, &list);
-
+    sanitize_string(c->nome);
+    TClub *new_club = get_new_club(c->nome, c->pontos);
+    add_end(new_club, &list);
     c++;
   }
-  print_list(list);
-  sort_list(list);
+
   print_list(list);
   free_list(list);
-
   return 0;
 }

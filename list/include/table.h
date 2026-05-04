@@ -2,7 +2,7 @@
 #define TABLE_H
 
 typedef struct club {
-  char nome[20];
+  char nome[25];
   int pontos;
   struct club *next;
 } TClub;
@@ -14,5 +14,6 @@ void swap_item(TClub *target, TClub *source);
 void print_list(TClub *list);
 void sort_list(TClub *list);
 void free_list(TClub *list);
+TClub *get_new_club(char *nome, int pontos);
 
 #endif
