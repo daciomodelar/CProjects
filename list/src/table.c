@@ -31,6 +31,7 @@ void add_end_dup_linked(TClub *new_club, TClub **list) {
   // nesse ponto, o ponteiro de item, aponta para o ultimo elemento da lista
   // ness ponto, o ponteiro anterior do novo item aponto para o ultimo item da
   // lista
+
   new_club->prev = item;
   item->next = new_club;
 }
@@ -63,6 +64,7 @@ void add_sorted(TClub *new_club, TClub **list) {
 }
 
 void swap_item(TClub *_target, TClub *_source) {
+
   TClub temp = *_source;
   *_source = *_target;
   *_target = temp;
@@ -183,6 +185,17 @@ TClub *find_item(int id, TClub *list) {
   return NULL;
 }
 
+TClub *find_item_by_name(char *nome, TClub *list) {
+  TClub *aux = list;
+  while (aux) {
+    if (strcmp(aux->nome, nome) == 0) {
+      return aux;
+    }
+    aux = aux->next;
+  }
+  return NULL;
+}
+
 void print_item(TClub *club) {
   if (!club)
     return;
@@ -220,14 +233,22 @@ void remove_item(int id, TClub **list) {
 void remove_item_dup_linked(int id, TClub **list) {
   if (!*list)
     return;
-  
+
   TClub *_remove = find_item(id, *list);
   if (!_remove)
     return;
 
   TClub *_prev = _remove->prev;
   TClub *_next = _remove->next;
-  _prev->next = _next;
+  if (_prev) {
+    _prev->next = _next;
+  } else {
+    *list = NULL;
+  }
+  printf("prev-> %p\n", _prev);
+  printf("prev-> %p\n", _remove);
+  printf("next-> %p\n", _next);
+
   free(_remove);
 }
 
@@ -257,6 +278,7 @@ TClub *get_new_club(int id, char *nome, int pontos) {
   strcpy(new_club->nome, nome);
   new_club->pontos = pontos;
   new_club->next = NULL;
+  new_club->prev = NULL;
   new_club->id = id;
   return new_club;
 }

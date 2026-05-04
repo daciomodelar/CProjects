@@ -19,6 +19,7 @@ void print_list_pointer(TClub *list);
 void sort_list(TClub *list);
 void print_sorted_list(TClub *list);
 TClub *find_item(int id, TClub *list);
+TClub *find_item_by_name(char *nome, TClub *list);
 void remove_item(int id, TClub **list);
 void remove_item_dup_linked(int id, TClub **list);
 void print_item(TClub *club);
