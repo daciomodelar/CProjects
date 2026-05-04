@@ -165,6 +165,8 @@ void print_list_pointer(TClub *list) {
   }
 }
 
+//Imprime uma nova lista classificada por pontos decrescente
+//Isso para poder manter a orignal
 void print_sorted_list(TClub *list) {
   if (!list) {
     return;
