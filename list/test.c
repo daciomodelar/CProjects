@@ -8,9 +8,9 @@ int main(void) {
 
   TClub clubs[] = {
       {.nome = "Vasco", .pontos = 59},
-      // {.nome = "Ceará", .pontos = 45},
-      // {.nome = "Palmeiras", .pontos = 68},
-      // {.nome = "São Paulo", .pontos = 55},
+      {.nome = "Ceará", .pontos = 45},
+      {.nome = "Palmeiras", .pontos = 68},
+      {.nome = "São Paulo", .pontos = 55},
       // {.nome = "Botafogo", .pontos = 61},
       // {.nome = "Fluminense", .pontos = 58},
       // {.nome = "Grêmio", .pontos = 64},
@@ -34,7 +34,6 @@ int main(void) {
   TClub *end = clubs + _length;
 
   TClub *list = NULL;
-  print_list_pointer(list);
 
   while (c < end) {
     sanitize_string(c->nome);
@@ -42,23 +41,25 @@ int main(void) {
     add_end_dup_linked(new_club, &list);
     c++;
   }
-  print_list(list);
+  print_list_pointer(list);
   printf("\n\n");
 
-  //TClub *_find = find_item(6, list);
-  // print_item(_find->prev);
-  // print_item(_find);
-  // print_item(_find->next);
+  // TClub *_find = find_item(6, list);
+  //  print_item(_find->prev);
+  //  print_item(_find);
+  //  print_item(_find->next);
 
-  remove_item_dup_linked(1, &list);
+  TClub *_item1 = find_item(1, list);
+  TClub *_item2 = find_item(2, list);
+  TClub *_item3 = find_item(3, list);
+  TClub *_item4 = find_item(4, list);
 
-  remove_item_dup_linked(10, &list);
+  remove_item_dup_linked(_item1, &list);
+  //remove_item_dup_linked(_item4, &list);
+  remove_item_dup_linked(_item3, &list);
 
-  remove_item_dup_linked(20, &list);
 
-  remove_item_dup_linked(20, &list);
-
-  print_list(list);
+  print_list_pointer(list);
 
   // TClub *aux = list;
   // while (aux) {

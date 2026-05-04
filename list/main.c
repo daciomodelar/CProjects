@@ -113,7 +113,15 @@ void remove_club(void) {
   printf("** Remover Clube ** \n");
   printf("Informe o ID: ");
   scanf("%d", &id);
-  remove_item_dup_linked(id, &list);
+  TClub *_find = find_item(id, list);
+  if (_find) {
+    printf("Clube removido\n");
+    print_item(_find);
+    remove_item_dup_linked(_find, &list);
+  } else {
+    printf("Clube não encontrado\n");    
+  }
+  getchar();
 }
 
 void find_club(void) {

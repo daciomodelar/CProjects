@@ -127,9 +127,6 @@ void print_list(TClub *list) {
 }
 
 void print_list_pointer(TClub *list) {
-  if (!list) {
-    return;
-  }
 
   TClub *aux = list;
 
@@ -204,6 +201,16 @@ void print_item(TClub *club) {
   printf("Pontos..: %d\n", club->pontos);
 }
 
+void print_item_pointer(TClub *club) {
+  if (!club) {
+    printf("nil");
+    return;
+  }
+  printf("ID......: %d\n", club->id);
+  printf("Prev....: %p\n", club->prev);
+  printf("Next....: %p\n", club->next);
+}
+
 void remove_item(int id, TClub **list) {
   if (!*list)
     return;
@@ -230,22 +237,29 @@ void remove_item(int id, TClub **list) {
   }
 }
 
-void remove_item_dup_linked(int id, TClub **list) {
+void remove_item_dup_linked(TClub *_remove, TClub **list) {
+  
   if (!*list)
     return;
 
-  TClub *_remove = find_item(id, *list);
   if (!_remove)
     return;
 
   TClub *_prev = _remove->prev;
   TClub *_next = _remove->next;
 
-  if (_prev == NULL) {
-    *list = _next;
-  } else {
-    _prev->next = _next;
+  // remove o primeiro
+  if (_remove->prev == NULL) {
+    *list = _remove->next;
+    _next->prev = NULL;
+    free(_remove);
+    return;
   }
+
+  if (_next)
+    _next->prev = _prev;
+  if (_prev)
+    _prev->next = _next;
 
   free(_remove);
 }
