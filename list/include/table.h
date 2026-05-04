@@ -10,9 +10,9 @@ typedef struct club {
 } TClub;
 
 void add_end_dup_linked(TClub *new_club, TClub **list);
-void add_end_sing_linkend(TClub *new_club, TClub **list);
-void add_start_sing_linkend(TClub *new_club, TClub **list);
-void add_sorted_sing_linkend(TClub *new_club, TClub **list);
+void add_end_sing_linked(TClub *new_club, TClub **list);
+void add_start_sing_linked(TClub *new_club, TClub **list);
+void add_sorted_sing_linked(TClub *new_club, TClub **list);
 void swap_item(TClub *target, TClub *source);
 void print_list(TClub *list);
 void print_list_pointer(TClub *list);
@@ -20,7 +20,7 @@ void sort_list(TClub *list);
 void print_sorted_list(TClub *list);
 TClub *find_item(int id, TClub *list);
 TClub *find_item_by_name(const char *nome, TClub *list);
-void remove_item(int id, TClub **list);
+void remove_item_sing_linked(int id, TClub **list);
 void remove_item_dup_linked(TClub *_remove, TClub **list);
 void print_item(TClub *club);
 void print_item_pointer(TClub *club);

@@ -7,7 +7,7 @@
 static int id = 0;
 
 // Função para adicionar um item no final em uma lista singularmente encadeada
-void add_end_sing_linkend(TClub *new_club, TClub **list) {
+void add_end_sing_linked(TClub *new_club, TClub **list) {
   if (!*list) {
     *list = new_club;
     return;
@@ -40,7 +40,7 @@ void add_end_dup_linked(TClub *new_club, TClub **list) {
 }
 
 // Função para adicionar um item no inicio em uma lista singlamente encadeada
-void add_start_sing_linkend(TClub *new_club, TClub **list) {
+void add_start_sing_linked(TClub *new_club, TClub **list) {
   if (!*list) {
     *list = new_club;
     return;
@@ -50,7 +50,7 @@ void add_start_sing_linkend(TClub *new_club, TClub **list) {
 }
 
 // Função para adicionar um item ordenado em uma lista singlamente encadeada
-void add_sorted_sing_linkend(TClub *new_club, TClub **list) {
+void add_sorted_sing_linked(TClub *new_club, TClub **list) {
   TClub *p = *list;
   TClub *old = NULL;
 
@@ -68,7 +68,8 @@ void add_sorted_sing_linkend(TClub *new_club, TClub **list) {
   }
 }
 
-// Função para troca de posição de dois itens na lista singlamente/duplamente encadeada
+// Função para troca de posição de dois itens na lista singlamente/duplamente
+// encadeada
 void swap_item(TClub *_target, TClub *_source) {
   // Salva ponteiros originais
   TClub *target_next = _target->next;
@@ -78,8 +79,8 @@ void swap_item(TClub *_target, TClub *_source) {
 
   // Troca tudo via cópia de struct
   TClub temp = *_target;
-  *_target  = *_source;
-  *_source  = temp;
+  *_target = *_source;
+  *_source = temp;
 
   // Restaura os ponteiros — posição na lista não muda, só os dados
   _target->next = target_next;
@@ -88,6 +89,7 @@ void swap_item(TClub *_target, TClub *_source) {
   _source->prev = source_prev;
 }
 
+// Ordena uma lista de clubes por pontos decrescente
 void sort_list(TClub *list) {
   if (!list) {
     return;
@@ -112,6 +114,7 @@ void sort_list(TClub *list) {
   }
 }
 
+// Imprime uma tabela de clubes no console
 void print_list(TClub *list) {
   if (!list) {
     return;
@@ -140,6 +143,7 @@ void print_list(TClub *list) {
   }
 }
 
+// Imprime uma tabela de ponteiros de itens no console
 void print_list_pointer(TClub *list) {
 
   TClub *aux = list;
@@ -165,8 +169,8 @@ void print_list_pointer(TClub *list) {
   }
 }
 
-//Imprime uma nova lista classificada por pontos decrescente
-//Isso para poder manter a orignal
+// Imprime uma nova lista classificada por pontos decrescente
+// Isso para poder manter a orignal
 void print_sorted_list(TClub *list) {
   if (!list) {
     return;
@@ -175,13 +179,14 @@ void print_sorted_list(TClub *list) {
   TClub *aux = list;
   while (aux) {
     TClub *new_club = get_new_club(aux->id, aux->nome, aux->pontos);
-    add_sorted_sing_linkend(new_club, &sorted_list);
+    add_sorted_sing_linked(new_club, &sorted_list);
     aux = aux->next;
   }
   print_list(sorted_list);
   free_list(sorted_list);
 }
 
+// Retorna um ponteiro para o item encontado por ID
 TClub *find_item(int id, TClub *list) {
   TClub *aux = list;
   while (aux) {
@@ -193,6 +198,7 @@ TClub *find_item(int id, TClub *list) {
   return NULL;
 }
 
+// Retorna um ponteiro para o item encontado por NOME
 TClub *find_item_by_name(const char *nome, TClub *list) {
   TClub *aux = list;
   while (aux) {
@@ -204,6 +210,7 @@ TClub *find_item_by_name(const char *nome, TClub *list) {
   return NULL;
 }
 
+// Imprime um item no console
 void print_item(TClub *club) {
   if (!club)
     return;
@@ -212,6 +219,7 @@ void print_item(TClub *club) {
   printf("Pontos..: %d\n", club->pontos);
 }
 
+// Imprime os ponteiros do item no console
 void print_item_pointer(TClub *club) {
   if (!club) {
     printf("nil");
@@ -222,22 +230,27 @@ void print_item_pointer(TClub *club) {
   printf("Next....: %p\n", club->next);
 }
 
-void remove_item(int id, TClub **list) {
+// remove um item de uma lista singularmente lincada
+void remove_item_sing_linked(int id, TClub **list) {
   if (!*list)
     return;
   TClub *_current = *list;
   TClub *_prev = NULL;
   while (_current) {
     if (_current->id == id) {
-      // verifica se o item  é o primeiro da lista;
+      // Nesse ponto o item a ser removido para a ser o _current
+      //  verifica se o item  é o primeiro da lista;
       //_prev ainda não aponta para nenhum item
       if (_prev == NULL) {
-        // remover o primeiro
+        // o primeiro item da lista passa o próximo do item item a ser removido
         *list = _current->next;
       } else {
-        // nesse ponto o _prev já aponta para o item anterior ao encontro do id
+        // nesse ponto o _prev já aponta para o item anterior do item a ser
+        // removido então o proximo do item anteriar ao do ser removido,
+        // apontará para do item a ser removido
         _prev->next = _current->next;
       }
+      // libera a memoria do item a ser removido
       free(_current);
       return;
     }
@@ -248,6 +261,7 @@ void remove_item(int id, TClub **list) {
   }
 }
 
+// remove um item de uma lista duplamente lincada
 void remove_item_dup_linked(TClub *_remove, TClub **list) {
 
   if (!*list)
@@ -259,23 +273,41 @@ void remove_item_dup_linked(TClub *_remove, TClub **list) {
   TClub *_prev = _remove->prev;
   TClub *_next = _remove->next;
 
-  // remove o primeiro
-  if (_remove->prev == NULL) {
-    *list = _remove->next;
+  // Verfica se o item a removido é o primeiro
+  if (_prev == NULL) {
+    // Lista aponta para o próximo item do item a ser removido,
+    // ou seja, aponta para o novo primerio item da lista
+    *list = _next;
+    // Verfica se item a ser removido tem um próximo,
+    // ou seja, se ele é o primeiro e não é o único.
+    // O próximo o item a ser removido passa a ser o primeiro,
+    // então o anterior (prev) passar a apontar para NULL
     if (_next)
       _next->prev = NULL;
     free(_remove);
     return;
   }
 
+  // Aqui o item a ser removido é qualquer item que não é o primeiro,
+  // ou seja, do segundo em diante
+
+  // Verifica se o item a ser removido tem um anterior,
+  // ou seja, o item a ser removido não é o primeiro
+  if (_prev)
+    _prev->next =
+        _next; // Nessa atribuilção, se o item a ser removido é o ultimo, _next
+               // é NULL e o item anterior passa a ser o último
+
+  // Verifica se o item a ser removido tem um próximo,
+  // ou seja, ele não é o ultimo
   if (_next)
     _next->prev = _prev;
-  if (_prev)
-    _prev->next = _next;
 
+  // Libera a memória do item removido
   free(_remove);
 }
 
+// Liebra as memórias dos itens da lista
 void free_list(TClub *list) {
   if (!list)
     return;
@@ -288,13 +320,14 @@ void free_list(TClub *list) {
   }
 }
 
-//Gera o próximo ID utilizando um variável estática global
+// Gera o próximo ID utilizando um variável estática global
 int get_next_id() { return ++id; }
 
+// Retorna um ponteiro para um item de lista alocado
 TClub *get_new_club(int _id, const char *nome, int pontos) {
   TClub *new_club = (TClub *)malloc(sizeof(TClub));
   if (!new_club) {
-    printf("Erro de memória");
+    printf("Erro de alocação de memória");
     return NULL;
   }
   strncpy(new_club->nome, nome, sizeof(new_club->nome) - 1);

@@ -38,13 +38,24 @@ int main(void) {
   while (c < end) {
     sanitize_string(c->nome);
     TClub *new_club = get_new_club(get_next_id(), c->nome, c->pontos);
-    add_end_sing_linkend(new_club, &list);
+    add_end_dup_linked(new_club, &list);
     c++;
   }
 
   print_list(list);
   printf("\n\n");
   print_sorted_list(list);
+  printf("\n\n");
+  TClub *aux = list;
+  while (aux) {
+    if (aux->id % 2 > 0) {
+      TClub *_item = find_item(aux->id, list);
+      remove_item_dup_linked(_item, &list);
+    }
+    aux = aux->next;
+  }
+  print_list_pointer(list);
+  printf("\n\n");
 
   // TClub *_find = find_item(6, list);
   //  print_item(_find->prev);
@@ -60,8 +71,7 @@ int main(void) {
   // //remove_item_dup_linked(_item4, &list);
   // remove_item_dup_linked(_item3, &list);
 
-
-  //print_list_pointer(list);
+  // print_list_pointer(list);
 
   // TClub *aux = list;
   // while (aux) {
