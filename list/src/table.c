@@ -327,7 +327,9 @@ int get_next_id() { return ++id; }
 
 // Retorna um ponteiro para um item de lista alocado
 TClub *get_new_club(int _id, const char *nome, int pontos) {
+  
   TClub *new_club = (TClub *)malloc(sizeof(TClub));
+  
   if (!new_club) {
     printf("Erro de alocação de memória");
     return NULL;

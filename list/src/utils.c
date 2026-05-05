@@ -8,6 +8,7 @@
 #include <string.h>
 #include <time.h>
 #include <wchar.h> // wchar_t, wcwidth
+#include <ctype.h>
 
 /* Calcula largura visual (colunas) */
 int utf8_width(const char *str) {
@@ -137,6 +138,13 @@ void sanitize_string(char *str) {
   }
 }
 
+void to_lower_case(char *str) {
+  while (*str) {
+    *str = tolower(*str);
+    str++;
+  }
+}
+
 /* Retorna tempo atual em ms */
 long long now_ms() {
   struct timespec ts;
@@ -146,7 +154,7 @@ long long now_ms() {
 }
 
 long long now_ns() {
-    struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC, &ts);
-    return (long long)ts.tv_sec * 1000000000LL + ts.tv_nsec;
+  struct timespec ts;
+  clock_gettime(CLOCK_MONOTONIC, &ts);
+  return (long long)ts.tv_sec * 1000000000LL + ts.tv_nsec;
 }
