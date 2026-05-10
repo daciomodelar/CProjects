@@ -34,10 +34,9 @@ void add_end_dup_linked(TClub *new_club, TClub **list) {
     item = item->next;
   }
 
-  // nesse ponto, o ponteiro de item, aponta para o ultimo elemento da lista
-  // nesse ponto, o ponteiro anterior do novo item aponto para o ultimo item da
-  // lista
+  // nesse ponto, o ponteiro anterior do novo item aponto para o ultimo item da lista
   new_club->prev = item;
+  // nesse ponto, o ultimo elemento da lista aponta para o novo elemento
   item->next = new_club;
 }
 

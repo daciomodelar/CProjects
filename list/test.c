@@ -1,5 +1,5 @@
+//Para compilar: gcc test.c src/table.c -Iinclude -o build/test && build/test
 #include "table.h"
-#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
