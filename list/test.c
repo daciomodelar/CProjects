@@ -119,8 +119,7 @@ void test_free_list() {
   add_end_sing_linked(get_new_club(2, "Palmeiras", 20), &list);
   add_end_sing_linked(get_new_club(3, "São Paulo", 15), &list);
   free_list(list);
-  TEST("lista com 3 elementos liberada sem crash",
-       1); // se chegou aqui, não crashou
+  TEST("lista com 3 elementos liberada sem crash", 1); // se chegou aqui, não crashou
 
   // caso 2: lista com um elemento
   TClub *list2 = NULL;

@@ -2,9 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-const unsigned int MAX = 3;
-
-TItemStack *topStack = NULL;
+const unsigned int MAX = 4;
 
 // Macro auxiliar para exibir resultado
 #define TEST(nome, condicao)                                                   \
@@ -18,54 +16,167 @@ TItemStack *topStack = NULL;
 void print_stack(TItemStack *topStack) {
   TItemStack *aux = topStack;
   while (aux) {
-    printf("%-20s | %5d | %16p\n", aux->name, aux->code, aux->prev);
+    printf("%-20s | %2d | %16p | %16p\n", aux->name, aux->count, aux,
+           aux->prev);
     aux = aux->prev;
   }
 }
 
-void test_new_item(TItemStack *item) {
-  int _b = (strcmp(item->name, "Soma") == 0) && (item->code == 1156) && (item->prev == NULL);  
+void print_item(TItemStack *item) {
+  if (!item)
+    return;
+  printf("%-20s | %2d | %16p\n", item->name, item->count, item->prev);
+}
+
+void test_new_item() {
+  printf("\n--- new_item ---\n");
+
+  TItemStack *item = get_new_item("Soma");
+  int _b = (strcmp(item->name, "Soma") == 0) && (item->prev == NULL);
   TEST("New Item", _b);
 }
 
-void test_push(TItemStack *i1, TItemStack *i2, TItemStack *i3) {
+void test_push() {
 
-  push(i1, &topStack);
-  push(i2, &topStack);
-  push(i3, &topStack);
+  printf("\n--- push ---\n");
 
-  TEST("Push Item 1", topStack->code == i3->code);
-  TEST("Push Item 2", topStack->prev->code == i2->code);
-  TEST("Push Item 3", topStack->prev->prev->code == i1->code);
+  TItemStack *topStack = NULL;
+
+  TItemStack *i1 = get_new_item("Soma");
+  TItemStack *i2 = get_new_item("Multiplicacao");
+  TItemStack *i3 = get_new_item("Subtracao");
+  TItemStack *i4 = get_new_item("Divisao");
+
+  push(i1, &topStack, MAX);
+  push(i2, &topStack, MAX);
+  push(i3, &topStack, MAX);
+  push(i4, &topStack, MAX);
+
+  char text1[50], text2[50], text3[50], text4[50];
+  snprintf(text1, sizeof(text1), "Push Item 1 %s", i1->name);
+  snprintf(text2, sizeof(text2), "Push Item 2 %s", i2->name);
+  snprintf(text3, sizeof(text3), "Push Item 3 %s", i3->name);
+  snprintf(text4, sizeof(text4), "Push Item 4 %s", i4->name);
+
+  TEST(text1, strcmp(topStack->name, i4->name) == 0);
+  TEST(text2, strcmp(topStack->prev->name, i3->name) == 0);
+  TEST(text3, strcmp(topStack->prev->prev->name, i2->name) == 0);
+  TEST(text4, strcmp(topStack->prev->prev->prev->name, i1->name) == 0);
+
+  print_stack(topStack);
 
   free_stack(topStack);
 }
 
-void test_pop(void) {
+void test_push_stack_overflow() {
+
+  printf("\n--- push with stackoverflow---\n");
+
+  TItemStack *topStack = NULL;
+
+  TItemStack *i1 = get_new_item("Soma");
+  TItemStack *i2 = get_new_item("Multiplicacao");
+  TItemStack *i3 = get_new_item("Subtracao");
+  TItemStack *i4 = get_new_item("Divisao");
+  TItemStack *i5 = get_new_item("Fatorial");
+
+  push(i1, &topStack, MAX);
+  push(i2, &topStack, MAX);
+  push(i3, &topStack, MAX);
+  push(i4, &topStack, MAX);
+  push(i5, &topStack, MAX);
+
+  TEST("Push stack overflow", strcmp(topStack->name, i5->name) != 0);
+
+  free_stack(topStack);
+}
+
+void test_pop() {
+
+  printf("\n--- pop ---\n");
+
+  TItemStack *topStack = NULL;
+
+  TItemStack *i1 = get_new_item("Soma");
+  TItemStack *i2 = get_new_item("Multiplicacao");
+
+  push(i1, &topStack, MAX);
+  push(i2, &topStack, MAX);
+
+  TItemStack *pop1 = pop(&topStack);
+
+  TEST("Pop Item 2", (strcmp(pop1->name, i2->name) == 0));
+
+  free_stack(topStack);
+}
+
+void test_pop_empty_stack() {
+
+  printf("\n--- pop stack empty---\n");
+
+  TItemStack *topStack = NULL;
+
+  TItemStack *i1 = get_new_item("Soma");
+  TItemStack *i2 = get_new_item("Multiplicacao");
+
+  push(i1, &topStack, MAX);
+  push(i2, &topStack, MAX);
 
   TItemStack *pop1 = pop(&topStack);
   TItemStack *pop2 = pop(&topStack);
+  TItemStack *popNull = pop(&topStack);
 
-  TEST("Pop Item 1 code 903", pop1->code == 903);
-  TEST("Pop Prev Item 1 code 2001", pop1->prev->code == 2001);
-
-  TEST("Pop Item 2 code 2001", pop2->code == 2001);
-  TEST("Pop Prev Item 1 code 1156", pop2->prev->code == 1156);
+  TEST("Pop empty stack", popNull == NULL);
 
   free_stack(topStack);
 }
 
+void test_free_stack() {
+  printf("\n--- free_stack ---\n");
+
+  // caso 1: stack com vários itens
+  TItemStack *topStack1 = NULL;
+  TItemStack *i1 = get_new_item("Soma");
+  TItemStack *i2 = get_new_item("Multiplicacao");
+  TItemStack *i3 = get_new_item("Multiplicacao");
+  push(i1, &topStack1, MAX);
+  push(i2, &topStack1, MAX);
+  push(i3, &topStack1, MAX);
+  free_stack(topStack1);
+  TEST("free stack com 3 itens sem crash", 1); // se chegou aqui, não crashou
+
+  // caso 2: stack com vários itens
+  TItemStack *topStack2 = NULL;
+  TItemStack *i4 = get_new_item("Soma");
+  push(i4, &topStack2, MAX);
+  free_stack(topStack2);
+  TEST("free stack com 1 item sem crash", 1); // se chegou aqui, não crashou
+
+  // caso 3: stack sem itens
+  TItemStack *topStack3 = NULL;
+  free_stack(topStack3);
+  TEST("free stack sem item ", 1); // se chegou aqui, não crashou
+
+  print_stack(topStack1);
+  print_stack(topStack2);
+  print_stack(topStack3);
+
+}
+
 int main(void) {
+  printf("=============================\n");
+  printf("     TESTES - stack.c        \n");
+  printf("=============================\n");
 
-  TItemStack *i1 = get_new_item("Soma", 1156);
-  TItemStack *i2 = get_new_item("Multiplicacao", 2001);
-  TItemStack *i3 = get_new_item("Subtracao", 903);
-
-  test_new_item(i1);   
-  
-  test_push(i1, i2, i3);
-
+  test_new_item();
+  test_push();
+  test_push_stack_overflow();
   test_pop();
+  test_pop_empty_stack();
+  test_free_stack();
 
+  printf("\n=============================\n");
+  printf("        FIM DOS TESTES       \n");
+  printf("=============================\n");
   return 0;
 }

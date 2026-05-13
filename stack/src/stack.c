@@ -4,13 +4,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-void push(TItemStack *item, TItemStack **topStack) {
+void push(TItemStack *item, TItemStack **topStack, const unsigned int MAX) {
 
   if (!(*topStack)) {
-    *topStack = item;
+    item->count = 1;
+    *topStack = item; //fist item
     return;
   }
+  if (((*topStack)->count + 1 ) > MAX) {
+    return;//stack overflow
+  }
 
+  item->count = (*topStack)->count + 1;
   item->prev = *topStack;
   *topStack = item;
 }
@@ -20,11 +25,11 @@ TItemStack *pop(TItemStack **topStack) {
         return NULL;
     }
     TItemStack *i = *topStack;
-    *topStack = (*topStack)->prev;
+    *topStack = i->prev;
     return i;
 }
 
-TItemStack *get_new_item(const char *name, const unsigned int code) {
+TItemStack *get_new_item(const char *name) {
 
   TItemStack *new_item = (TItemStack *)malloc(sizeof(TItemStack));
 
@@ -35,7 +40,6 @@ TItemStack *get_new_item(const char *name, const unsigned int code) {
 
   strncpy(new_item->name, name, sizeof(new_item->name) - 1);
   new_item->name[sizeof(new_item->name) - 1] = '\0';
-  new_item->code = code;
   new_item->prev = NULL;
   return new_item;
 }
@@ -45,7 +49,7 @@ void free_stack(TItemStack *topStack) {
     return;
   TItemStack *aux = topStack;
   TItemStack *_free = NULL;
-  while (aux->prev) {
+  while (aux) {
     _free = aux;
     aux = aux->prev;
     free(_free);
