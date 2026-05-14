@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-void push(TItemStack *item, TItemStack **topStack, const unsigned int MAX) {
+const unsigned int MAX = 4;
+
+void push(TItemStack *item, TItemStack **topStack) {
 
   if (!(*topStack)) {
     item->count = 1;
@@ -20,7 +22,7 @@ void push(TItemStack *item, TItemStack **topStack, const unsigned int MAX) {
   *topStack = item;
 }
 
-TItemStack *pop(TItemStack **topStack) {
+TItemStack* pop(TItemStack **topStack) {
     if (!(*topStack)) {
         return NULL;
     }
@@ -29,7 +31,7 @@ TItemStack *pop(TItemStack **topStack) {
     return i;
 }
 
-TItemStack *get_new_item(const char *name) {
+TItemStack* new_item_stack(const char *name) {
 
   TItemStack *new_item = (TItemStack *)malloc(sizeof(TItemStack));
 
