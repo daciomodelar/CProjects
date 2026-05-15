@@ -78,20 +78,18 @@ void test_dequeue() {
   enqueue(i2, &iniQueue, &endQueue);
   enqueue(i3, &iniQueue, &endQueue);
   enqueue(i4, &iniQueue, &endQueue);
+
   print_queue(iniQueue);
-  printf("***fim***\n");
 
   // caso 1 - Dequeue primerio item da fila
   TItemQueue *d1 = dequeue(&iniQueue, &endQueue);
-  TEST("Dequeue item 1", (strcmp(iniQueue->name, d1->name) == 0));
-  print_queue(iniQueue);
-  printf("***fim***\n");
+  TEST("Dequeue item 1", (strcmp("Arquivo 1", d1->name) == 0));
 
-  // // caso 1 - Dequeue primerio item da fila
-  // TItemQueue *d2 = dequeue(&iniQueue, &endQueue);
-  // TEST("Dequeue item 2", (strcmp(iniQueue->name, d2->name) == 0));
-  // print_queue(iniQueue);
-  // printf("***fim***\n");
+  // caso 1 - Dequeue primerio item da fila
+  TItemQueue *d2 = dequeue(&iniQueue, &endQueue);
+  TEST("Dequeue item 2", (strcmp("Arquivo 2", d2->name) == 0));
+
+  print_queue(iniQueue);
 
   free_queue(iniQueue);
 }
@@ -101,7 +99,7 @@ int main(void) {
   printf("     TESTES - queue.c        \n");
   printf("=============================\n");
 
-  // test_enqueue();
+  test_enqueue();
   test_dequeue();
 
   printf("\n===========================\n");
