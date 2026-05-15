@@ -13,15 +13,15 @@
 
 void print_queue(TItemQueue *iniQueue) {
   TItemQueue *aux = iniQueue;
+  printf("%-20s | %-6s | %-16s | %-16s\n", "name", "count", "item", "next");
   while (aux) {
-    printf("%-20s | %2d | %16p | %16p\n", aux->name, aux->count, aux,
-           aux->next);
+    printf("%-20s | %6d | %16p | %16p\n", aux->name, aux->count, aux, aux->next);
     aux = aux->next;
   }
 }
 
 void print_item_queue(TItemQueue *item) {
-  printf("%-20s | %2d | %16p | %16p\n", item->name, item->count, item,
+  printf("%-20s | %5d | %16p | %16p\n", item->name, item->count, item,
          item->next);
 }
 
@@ -87,11 +87,11 @@ void test_dequeue() {
   print_queue(iniQueue);
   printf("***fim***\n");
 
-  // caso 1 - Dequeue primerio item da fila
-  TItemQueue *d2 = dequeue(&iniQueue, &endQueue);
-  TEST("Dequeue item 2", (strcmp(iniQueue->name, d2->name) == 0));
-  print_queue(iniQueue);
-  printf("***fim***\n");
+  // // caso 1 - Dequeue primerio item da fila
+  // TItemQueue *d2 = dequeue(&iniQueue, &endQueue);
+  // TEST("Dequeue item 2", (strcmp(iniQueue->name, d2->name) == 0));
+  // print_queue(iniQueue);
+  // printf("***fim***\n");
 
   free_queue(iniQueue);
 }

@@ -26,17 +26,54 @@ void enqueue(TItemQueue *new_item, TItemQueue **iniQueue,
 
 TItemQueue *dequeue(TItemQueue **iniQueue, TItemQueue **endQueue) {
 
-  TItemQueue *aux = *iniQueue;
+    if (!(*iniQueue))
+        return NULL;
 
-  while (aux->next) {
-    swap_item_queue(aux, aux->next);
-    aux = aux->next;
-  }
-  
-  // *endQueue = aux;
-  // free(*endQueue);
+    TItemQueue *removed = malloc(sizeof(TItemQueue));
 
-  return *iniQueue;
+    if (!removed)
+        return NULL;
+
+    // salva os dados do primeiro elemento
+    memcpy(removed, *iniQueue, sizeof(TItemQueue));
+    removed->next = NULL;
+
+    TItemQueue *current = *iniQueue;
+
+    // desloca os dados dos próximos nós
+    while (current->next) {
+
+        strncpy(current->name,
+                current->next->name,
+                sizeof(current->name) - 1);
+
+        current->name[sizeof(current->name) - 1] = '\0';
+
+        current->count = current->next->count - 1;
+
+        // se o próximo for o último
+        if (current->next->next == NULL) {
+
+            TItemQueue *last = current->next;
+
+            current->next = NULL;
+            *endQueue = current;
+
+            free(last);
+
+            return removed;
+        }
+
+        current = current->next;
+    }
+
+    // caso exista apenas um elemento
+    free(*iniQueue);
+
+    *iniQueue = NULL;
+    *endQueue = NULL;
+
+    return removed;
 }
 
 TItemQueue *new_item_queue(const char *name) {
@@ -66,10 +103,15 @@ void free_queue(TItemQueue *iniQueue) {
   }
 }
 
-void swap_item_queue(TItemQueue *dest, TItemQueue *src) {
-  char *_name = src->name;
-  unsigned int _count = src->count - 1;
-  strncpy(dest->name, _name, sizeof(dest->name) - 1);
-  dest->name[sizeof(dest->name) - 1] = '\0';
-  dest->count = _count;
+void swap_item_queue(TItemQueue *_dest, TItemQueue *_src) {
+  
+  //printf("desc->%s <= src->%s\n", _dest->name, _src->name);
+
+  char *_name = _src->name;
+  unsigned int _count = _src->count - 1;
+
+  strncpy(_dest->name, _name, sizeof(_dest->name) - 1);
+  _dest->name[sizeof(_dest->name) - 1] = '\0';
+  _dest->count = _count;
+  
 }

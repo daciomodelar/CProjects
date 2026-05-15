@@ -11,7 +11,7 @@ typedef struct item_queue {
 void enqueue(TItemQueue *item, TItemQueue **iniQueue, TItemQueue **endQueue);
 TItemQueue* dequeue(TItemQueue **iniQueue, TItemQueue **endQueue);
 TItemQueue* new_item_queue(const char* name);
-void swap_item_queue(TItemQueue* dest, TItemQueue* src);
+void swap_item_queue(TItemQueue *_dest, TItemQueue *_src);
 void free_queue(TItemQueue *iniQueue);
 
 #endif
