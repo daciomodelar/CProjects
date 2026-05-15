@@ -16,18 +16,18 @@
       printf("❌ FALHOU: %s\n", nome);                                         \
   } while (0)
 
-void test_get_new_club() {
-  printf("\n--- get_new_club ---\n");
+void test_new_item() {
+  printf("\n--- new_item ---\n");
 
-  TItemList *club = new_item_list(1, "Vasco da Gama", 10);
+  TItemList *item = new_item_list(1, "Vasco da Gama", 10);
 
-  TEST("id correto", club->id == 1);
-  TEST("nome correto", strcmp(club->nome, "Vasco da Gama") == 0);
-  TEST("pontos corretos", club->pontos == 10);
-  TEST("next é NULL", club->next == NULL);
-  TEST("prev é NULL", club->prev == NULL);
+  TEST("id correto", item->id == 1);
+  TEST("nome correto", strcmp(item->nome, "Vasco da Gama") == 0);
+  TEST("pontos corretos", item->pontos == 10);
+  TEST("next é NULL", item->next == NULL);
+  TEST("prev é NULL", item->prev == NULL);
 
-  free(club);
+  free(item);
 }
 
 void test_add_end_sing_linked() {
@@ -147,17 +147,17 @@ void test_find_item() {
 
   print_list(list);
 
-  // caso 1 - procura por clube de ID 1
-  TItemList *club1 = find_item(1, list);
-  TEST("Procura por ID 1 Vasco da Gama - Existe", club1->id == 1);
+  // caso 1 - procura por iteme de ID 1
+  TItemList *item1 = find_item(1, list);
+  TEST("Procura por ID 1 Vasco da Gama - Existe", item1->id == 1);
 
-  // caso 2 - procura por clube de ID 4 - não existe na lista
-  TItemList *club2 = find_item(4, list);
-  TEST("Procura por ID 4 - Não existe e retorna NULL", (club2 == NULL));
+  // caso 2 - procura por iteme de ID 4 - não existe na lista
+  TItemList *item2 = find_item(4, list);
+  TEST("Procura por ID 4 - Não existe e retorna NULL", (item2 == NULL));
 
   TItemList *empty_list = NULL;
-  TItemList *club3 = find_item(1, empty_list);
-  TEST("Procura em uma lista vazia - Retorna NULL", (club3 == NULL));
+  TItemList *item3 = find_item(1, empty_list);
+  TEST("Procura em uma lista vazia - Retorna NULL", (item3 == NULL));
 
   free_list(list);
 }
@@ -172,24 +172,24 @@ void test_find_by_name() {
   print_list(list);
 
 
-  // caso 1 - procura por clube de nome Vasco da Gama
-  TItemList *club1 = find_item_by_name("Vasco da Gama", list);
+  // caso 1 - procura por iteme de nome Vasco da Gama
+  TItemList *item1 = find_item_by_name("Vasco da Gama", list);
   TEST("Procura por nome Vasco da Gama - Existe",
-       strcmp(club1->nome, "Vasco da Gama") == 0);
+       strcmp(item1->nome, "Vasco da Gama") == 0);
 
-  // caso 2 - procura por clube por nome Flamengo - não existe na lista
-  TItemList *club2 = find_item_by_name("Flamengo", list);
+  // caso 2 - procura por iteme por nome Flamengo - não existe na lista
+  TItemList *item2 = find_item_by_name("Flamengo", list);
   TEST("Procura por nome Flamengo - Não existe e retorna NULL",
-       (club2 == NULL));
+       (item2 == NULL));
 
-  // caso 3 - procura por clube por nome São Paulo - acentuação
-  TItemList *club3 = find_item_by_name("São Paulo", list);
+  // caso 3 - procura por iteme por nome São Paulo - acentuação
+  TItemList *item3 = find_item_by_name("São Paulo", list);
   TEST("Procura por nome São Paulo(acentuação) - Existe",
-       strcmp(club3->nome, "São Paulo") == 0);
+       strcmp(item3->nome, "São Paulo") == 0);
 
   TItemList *empty_list = NULL;
-  TItemList *club4 = find_item_by_name("Vasco da Gama2", empty_list);
-  TEST("Procura em uma lista vazia - Retorna NULL", (club4 == NULL));
+  TItemList *item4 = find_item_by_name("Vasco da Gama2", empty_list);
+  TEST("Procura em uma lista vazia - Retorna NULL", (item4 == NULL));
   
   free_list(list);
 }
@@ -199,7 +199,7 @@ int main() {
   printf("     TESTES - list.c        \n");
   printf("=============================\n");
 
-  test_get_new_club();
+  test_new_item();
   test_add_end_sing_linked();
   test_add_end_dup_linked();
   test_find_item();
