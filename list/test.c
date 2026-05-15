@@ -1,5 +1,8 @@
-//Para compilar: gcc test.c src/table.c -Iinclude -o build/test && build/test
-#include "table.h"
+/* Testes para as funções de lista */
+/*** Compile and build: gcc test.c src/list.c src/l_utils.c -Iinclude -o build/test  ****/
+/*** Execute: ./build/test ****/
+#include "list.h"
+#include "l_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,7 +19,7 @@
 void test_get_new_club() {
   printf("\n--- get_new_club ---\n");
 
-  TClub *club = get_new_club(1, "Vasco da Gama", 10);
+  TItemList *club = new_item_list(1, "Vasco da Gama", 10);
 
   TEST("id correto", club->id == 1);
   TEST("nome correto", strcmp(club->nome, "Vasco da Gama") == 0);
@@ -30,10 +33,10 @@ void test_get_new_club() {
 void test_add_end_sing_linked() {
   printf("\n--- add_end_sing_linked ---\n");
 
-  TClub *list = NULL;
-  TClub *a = get_new_club(1, "Vasco da Gama", 10);
-  TClub *b = get_new_club(2, "Palmeiras", 20);
-  TClub *c = get_new_club(3, "São Paulo", 15);
+  TItemList *list = NULL;
+  TItemList *a = new_item_list(1, "Vasco da Gama", 10);
+  TItemList *b = new_item_list(2, "Palmeiras", 20);
+  TItemList *c = new_item_list(3, "São Paulo", 15);
 
   add_end_sing_linked(a, &list);
   TEST("primeiro elemento é Vasco da Gama",
@@ -48,15 +51,17 @@ void test_add_end_sing_linked() {
        strcmp(list->next->next->nome, "São Paulo") == 0);
   TEST("terceiro next é NULL", list->next->next->next == NULL);
 
+  print_list(list);
+
   free_list(list);
 }
 
 void test_add_end_dup_linked() {
   printf("\n--- add_end_dup_linked ---\n");
 
-  TClub *list = NULL;
-  TClub *a = get_new_club(1, "Vasco da Gama", 10);
-  TClub *b = get_new_club(2, "Palmeiras", 20);
+  TItemList *list = NULL;
+  TItemList *a = new_item_list(1, "Vasco da Gama", 10);
+  TItemList *b = new_item_list(2, "Palmeiras", 20);
 
   add_end_dup_linked(a, &list);
   add_end_dup_linked(b, &list);
@@ -71,10 +76,10 @@ void test_add_end_dup_linked() {
 void test_remove_item_sing_linked() {
   printf("\n--- remove_item_sing_linked ---\n");
 
-  TClub *list = NULL;
-  add_end_sing_linked(get_new_club(1, "Vasco da Gama", 10), &list);
-  add_end_sing_linked(get_new_club(2, "Palmeiras", 20), &list);
-  add_end_sing_linked(get_new_club(3, "São Paulo", 15), &list);
+  TItemList *list = NULL;
+  add_end_sing_linked(new_item_list(1, "Vasco da Gama", 10), &list);
+  add_end_sing_linked(new_item_list(2, "Palmeiras", 20), &list);
+  add_end_sing_linked(new_item_list(3, "São Paulo", 15), &list);
 
   // remove do meio
   remove_item_sing_linked(2, &list);
@@ -94,10 +99,10 @@ void test_remove_item_sing_linked() {
 void test_sort_list() {
   printf("\n--- sort_list ---\n");
 
-  TClub *list = NULL;
-  add_end_sing_linked(get_new_club(1, "Vasco da Gama", 10), &list);
-  add_end_sing_linked(get_new_club(2, "Palmeiras", 30), &list);
-  add_end_sing_linked(get_new_club(3, "São Paulo", 20), &list);
+  TItemList *list = NULL;
+  add_end_sing_linked(new_item_list(1, "Vasco da Gama", 10), &list);
+  add_end_sing_linked(new_item_list(2, "Palmeiras", 30), &list);
+  add_end_sing_linked(new_item_list(3, "São Paulo", 20), &list);
 
   sort_list(list);
 
@@ -114,50 +119,44 @@ void test_free_list() {
   printf("\n--- free_list ---\n");
 
   // caso 1: lista com vários elementos
-  TClub *list = NULL;
-  add_end_sing_linked(get_new_club(1, "Vasco da Gama", 10), &list);
-  add_end_sing_linked(get_new_club(2, "Palmeiras", 20), &list);
-  add_end_sing_linked(get_new_club(3, "São Paulo", 15), &list);
+  TItemList *list = NULL;
+  add_end_sing_linked(new_item_list(1, "Vasco da Gama", 10), &list);
+  add_end_sing_linked(new_item_list(2, "Palmeiras", 20), &list);
+  add_end_sing_linked(new_item_list(3, "São Paulo", 15), &list);
   free_list(list);
   TEST("lista com 3 elementos liberada sem crash", 1); // se chegou aqui, não crashou
 
   // caso 2: lista com um elemento
-  TClub *list2 = NULL;
-  add_end_sing_linked(get_new_club(1, "Vasco da Gama", 10), &list2);
+  TItemList *list2 = NULL;
+  add_end_sing_linked(new_item_list(1, "Vasco da Gama", 10), &list2);
   free_list(list2);
   TEST("lista com 1 elemento liberada sem crash", 1);
 
   // caso 3: lista vazia (NULL)
-  TClub *list3 = NULL;
+  TItemList *list3 = NULL;
   free_list(list3);
   TEST("lista NULL não causa crash", 1);
 }
 
 void test_find_item() {
   printf("\n--- find_item ---\n");
-  TClub *list = NULL;
-  add_end_sing_linked(get_new_club(1, "Vasco da Gama", 10), &list);
-  add_end_sing_linked(get_new_club(2, "Palmeiras", 20), &list);
-  add_end_sing_linked(get_new_club(3, "São Paulo", 15), &list);
+  TItemList *list = NULL;
+  add_end_sing_linked(new_item_list(1, "Vasco da Gama", 10), &list);
+  add_end_sing_linked(new_item_list(2, "Palmeiras", 20), &list);
+  add_end_sing_linked(new_item_list(3, "São Paulo", 15), &list);
 
-  printf("IDs na Lista:\n");
-  TClub *aux = list;
-  while (aux) {
-    printf("%d\n", aux->id);
-    aux = aux->next;
-  }
-  printf("\n");
+  print_list(list);
 
   // caso 1 - procura por clube de ID 1
-  TClub *club1 = find_item(1, list);
+  TItemList *club1 = find_item(1, list);
   TEST("Procura por ID 1 Vasco da Gama - Existe", club1->id == 1);
 
   // caso 2 - procura por clube de ID 4 - não existe na lista
-  TClub *club2 = find_item(4, list);
+  TItemList *club2 = find_item(4, list);
   TEST("Procura por ID 4 - Não existe e retorna NULL", (club2 == NULL));
 
-  TClub *empty_list = NULL;
-  TClub *club3 = find_item(1, empty_list);
+  TItemList *empty_list = NULL;
+  TItemList *club3 = find_item(1, empty_list);
   TEST("Procura em uma lista vazia - Retorna NULL", (club3 == NULL));
 
   free_list(list);
@@ -165,36 +164,31 @@ void test_find_item() {
 
 void test_find_by_name() {
   printf("\n--- find_by_name ---\n");
-  TClub *list = NULL;
-  add_end_sing_linked(get_new_club(1, "Vasco da Gama", 10), &list);
-  add_end_sing_linked(get_new_club(2, "Palmeiras", 20), &list);
-  add_end_sing_linked(get_new_club(3, "São Paulo", 15), &list);
+  TItemList *list = NULL;
+  add_end_sing_linked(new_item_list(1, "Vasco da Gama", 10), &list);
+  add_end_sing_linked(new_item_list(2, "Palmeiras", 20), &list);
+  add_end_sing_linked(new_item_list(3, "São Paulo", 15), &list);
 
-  printf("Nomes na Lista:\n");
-  TClub *aux = list;
-  while (aux) {
-    printf("%s\n", aux->nome);
-    aux = aux->next;
-  }
-  printf("\n");
+  print_list(list);
+
 
   // caso 1 - procura por clube de nome Vasco da Gama
-  TClub *club1 = find_item_by_name("Vasco da Gama", list);
+  TItemList *club1 = find_item_by_name("Vasco da Gama", list);
   TEST("Procura por nome Vasco da Gama - Existe",
        strcmp(club1->nome, "Vasco da Gama") == 0);
 
   // caso 2 - procura por clube por nome Flamengo - não existe na lista
-  TClub *club2 = find_item_by_name("Flamengo", list);
+  TItemList *club2 = find_item_by_name("Flamengo", list);
   TEST("Procura por nome Flamengo - Não existe e retorna NULL",
        (club2 == NULL));
 
   // caso 3 - procura por clube por nome São Paulo - acentuação
-  TClub *club3 = find_item_by_name("São Paulo", list);
+  TItemList *club3 = find_item_by_name("São Paulo", list);
   TEST("Procura por nome São Paulo(acentuação) - Existe",
        strcmp(club3->nome, "São Paulo") == 0);
 
-  TClub *empty_list = NULL;
-  TClub *club4 = find_item_by_name("Vasco da Gama2", empty_list);
+  TItemList *empty_list = NULL;
+  TItemList *club4 = find_item_by_name("Vasco da Gama2", empty_list);
   TEST("Procura em uma lista vazia - Retorna NULL", (club4 == NULL));
   
   free_list(list);
@@ -202,7 +196,7 @@ void test_find_by_name() {
 
 int main() {
   printf("=============================\n");
-  printf("     TESTES - table.c        \n");
+  printf("     TESTES - list.c        \n");
   printf("=============================\n");
 
   test_get_new_club();

@@ -5,8 +5,11 @@
 
 const unsigned int MAX = 4;
 
-void enqueue(TItemQueue *new_item, TItemQueue **iniQueue,
-             TItemQueue **endQueue) {
+/** Protótipos "private" funcões */
+TItemQueue *cpy_first_item(TItemQueue *iniQueue);
+void swap_item_queue(TItemQueue *_dest, TItemQueue *_src);
+
+void enqueue(TItemQueue *new_item, TItemQueue **iniQueue, TItemQueue **endQueue) {
 
   if (!(*iniQueue)) {
     new_item->count = 1;
@@ -26,54 +29,42 @@ void enqueue(TItemQueue *new_item, TItemQueue **iniQueue,
 
 TItemQueue *dequeue(TItemQueue **iniQueue, TItemQueue **endQueue) {
 
-    if (!(*iniQueue))
-        return NULL;
+  if (!(*iniQueue))
+    return NULL;
 
-    TItemQueue *removed = malloc(sizeof(TItemQueue));
+  TItemQueue *removed = cpy_first_item(*iniQueue);
 
-    if (!removed)
-        return NULL;
+  TItemQueue *current = *iniQueue;
 
-    // salva os dados do primeiro elemento
-    memcpy(removed, *iniQueue, sizeof(TItemQueue));
-    removed->next = NULL;
+  // desloca os dados dos próximos nós
+  while (current->next) {
 
-    TItemQueue *current = *iniQueue;
+    // troca o valores do atual com o proximo do atual
+    swap_item_queue(current, current->next);
 
-    // desloca os dados dos próximos nós
-    while (current->next) {
+    // se o próximo for o último
+    if (current->next->next == NULL) {
 
-        strncpy(current->name,
-                current->next->name,
-                sizeof(current->name) - 1);
+      TItemQueue *last = current->next;
 
-        current->name[sizeof(current->name) - 1] = '\0';
+      current->next = NULL;
+      *endQueue = current;
 
-        current->count = current->next->count - 1;
+      free(last);
 
-        // se o próximo for o último
-        if (current->next->next == NULL) {
-
-            TItemQueue *last = current->next;
-
-            current->next = NULL;
-            *endQueue = current;
-
-            free(last);
-
-            return removed;
-        }
-
-        current = current->next;
+      return removed;
     }
 
-    // caso exista apenas um elemento
-    free(*iniQueue);
+    current = current->next;
+  }
 
-    *iniQueue = NULL;
-    *endQueue = NULL;
+  // caso exista apenas um elemento
+  free(*iniQueue);
 
-    return removed;
+  *iniQueue = NULL;
+  *endQueue = NULL;
+
+  return removed;
 }
 
 TItemQueue *new_item_queue(const char *name) {
@@ -94,18 +85,33 @@ TItemQueue *new_item_queue(const char *name) {
 void free_queue(TItemQueue *iniQueue) {
   if (!iniQueue)
     return;
-  TItemQueue *aux = iniQueue;
+
+  TItemQueue *current = iniQueue;
   TItemQueue *_free = NULL;
-  while (aux) {
-    _free = aux;
-    aux = aux->next;
+  while (current) {
+    _free = current;
+    current = current->next;
     free(_free);
   }
 }
 
-void swap_item_queue(TItemQueue *_dest, TItemQueue *_src) {
+TItemQueue *cpy_first_item(TItemQueue *iniQueue) {
   
-  //printf("desc->%s <= src->%s\n", _dest->name, _src->name);
+  //TItemQueue *first_item = iniQueue;
+
+  TItemQueue *first_item = malloc(sizeof(TItemQueue));
+
+  if (!first_item)
+      return NULL;
+
+  // salva os dados do primeiro elemento
+  memcpy(first_item, iniQueue, sizeof(TItemQueue));
+  first_item->next = NULL;
+
+  return first_item;
+}
+
+void swap_item_queue(TItemQueue *_dest, TItemQueue *_src) {
 
   char *_name = _src->name;
   unsigned int _count = _src->count - 1;
@@ -113,5 +119,4 @@ void swap_item_queue(TItemQueue *_dest, TItemQueue *_src) {
   strncpy(_dest->name, _name, sizeof(_dest->name) - 1);
   _dest->name[sizeof(_dest->name) - 1] = '\0';
   _dest->count = _count;
-  
 }

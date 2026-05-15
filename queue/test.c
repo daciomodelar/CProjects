@@ -1,4 +1,9 @@
+/* Testes para as funções de fila */
+/*** Compile and build: gcc test.c src/queue.c src/q_utils.c -Iinclude -o build/test  ****/
+/*** Execute: ./build/test ****/
+
 #include "queue.h"
+#include "q_utils.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -11,22 +16,9 @@
       printf("❌ FALHOU: %s\n", nome);                                         \
   } while (0)
 
-void print_queue(TItemQueue *iniQueue) {
-  TItemQueue *aux = iniQueue;
-  printf("%-20s | %-6s | %-16s | %-16s\n", "name", "count", "item", "next");
-  while (aux) {
-    printf("%-20s | %6d | %16p | %16p\n", aux->name, aux->count, aux, aux->next);
-    aux = aux->next;
-  }
-}
-
-void print_item_queue(TItemQueue *item) {
-  printf("%-20s | %5d | %16p | %16p\n", item->name, item->count, item,
-         item->next);
-}
 
 void test_enqueue() {
-  printf("***** test enqueue ****\n");
+  printf("***** test enqueue (Max: %u) *****\n", 4);
 
   TItemQueue *iniQueue = NULL;
   TItemQueue *endQueue = NULL;
@@ -39,21 +31,21 @@ void test_enqueue() {
 
   // caso 1 - Primerio item da fila
   enqueue(i1, &iniQueue, &endQueue);
-  TEST("Enqueue primeiro item", (strcmp(iniQueue->name, i1->name) == 0) &&
+  TEST("Enqueue item Arquivo 1", (strcmp(iniQueue->name, i1->name) == 0) &&
                                     (strcmp(endQueue->name, i1->name) == 0));
 
   // caso 2 - Segundo item da fila
   enqueue(i2, &iniQueue, &endQueue);
-  TEST("Enqueue segundo item", (strcmp(iniQueue->name, i1->name) == 0) &&
+  TEST("Enqueue item Arquivo 2", (strcmp(iniQueue->name, i1->name) == 0) &&
                                    (strcmp(endQueue->name, i2->name) == 0));
 
   // caso 3 - Terceiro item da fila
   enqueue(i3, &iniQueue, &endQueue);
-  TEST("Enqueue terceiro item", (strcmp(iniQueue->name, i1->name) == 0) &&
+  TEST("Enqueue item Arquivo 3", (strcmp(iniQueue->name, i1->name) == 0) &&
                                     (strcmp(endQueue->name, i3->name) == 0));
   // caso 4 - Quarto item da fila
   enqueue(i4, &iniQueue, &endQueue);
-  TEST("Enqueue quarto item", (strcmp(iniQueue->name, i1->name) == 0) &&
+  TEST("Enqueue item Arquivo 4", (strcmp(iniQueue->name, i1->name) == 0) &&
                                   (strcmp(endQueue->name, i4->name) == 0));
   // caso 5 - Fila cheia
   enqueue(i5, &iniQueue, &endQueue);
@@ -81,14 +73,29 @@ void test_dequeue() {
 
   print_queue(iniQueue);
 
-  // caso 1 - Dequeue primerio item da fila
+  // caso 1 - Dequeue item Arquivo 1
   TItemQueue *d1 = dequeue(&iniQueue, &endQueue);
-  TEST("Dequeue item 1", (strcmp("Arquivo 1", d1->name) == 0));
+  TEST("Dequeue item Arquivo 1", (strcmp("Arquivo 1", d1->name) == 0));
+  print_queue(iniQueue);
 
-  // caso 1 - Dequeue primerio item da fila
+  // caso 2 - Dequeue item Arquivo 2
   TItemQueue *d2 = dequeue(&iniQueue, &endQueue);
-  TEST("Dequeue item 2", (strcmp("Arquivo 2", d2->name) == 0));
+  TEST("Dequeue item Arquivo 2", (strcmp("Arquivo 2", d2->name) == 0));
+  print_queue(iniQueue);
 
+  // caso 3 - Dequeue item Arquivo 3
+  TItemQueue *d3 = dequeue(&iniQueue, &endQueue);
+  TEST("Dequeue item Arquivo 3", (strcmp("Arquivo 3", d3->name) == 0));
+  print_queue(iniQueue);
+
+  // caso 4 - Dequeue item Arquivo 4 (último item da fila)
+  TItemQueue *d4 = dequeue(&iniQueue, &endQueue);
+  TEST("Dequeue item Arquivo 4 (Último item da fila)", (strcmp("Arquivo 4", d4->name) == 0));
+  print_queue(iniQueue);
+
+  // caso 5 - Dequeue item Arquivo 5
+  TItemQueue *d5 = dequeue(&iniQueue, &endQueue);
+  TEST("Dequeue item em Fila vazia", d5 == NULL);
   print_queue(iniQueue);
 
   free_queue(iniQueue);
