@@ -143,6 +143,7 @@ void test_free_stack() {
   TItemStack *topStack2 = NULL;
   TItemStack *i4 = new_item_stack("Soma");
   push(i4, &topStack2);
+  print_stack(topStack2);
   free_stack(topStack2);
   TEST("free stack com 1 item sem crash", 1); // se chegou aqui, não crashou
 

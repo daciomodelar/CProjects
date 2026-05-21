@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/** Prototipo da função fatorial */
 unsigned long long fatorial(unsigned int n);
 // 8 -> 8 * 7 * 6 ..... * 1
+
 /**
 argc - arguments count
 argv - arguments values
@@ -11,6 +13,9 @@ argv - arguments values
 
 int main(int argc, char *argv[]) {
 
+  // Verifica se o número de argumentos é suficiente
+  // argv[0] é o nome do programa, então precisamos de pelo menos 2 argumentos para ter um número
+  
   if (argc < 2) {
     printf("Uso: %s <numero>\n", argv[0]);
     return 1;

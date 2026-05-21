@@ -7,7 +7,7 @@ typedef struct item_stack {
     struct item_stack *prev;
 } TItemStack;
 
-void push(TItemStack *item, TItemStack **topStack);
+void push(TItemStack *new_item, TItemStack **topStack);
 TItemStack* pop(TItemStack **topStack); 
 TItemStack* new_item_stack(const char *name);
 void free_stack(TItemStack *topStack);

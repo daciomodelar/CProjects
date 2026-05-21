@@ -6,20 +6,20 @@
 
 const unsigned int MAX = 4;
 
-void push(TItemStack *item, TItemStack **topStack) {
+void push(TItemStack *new_item, TItemStack **topStack) {
 
   if (!(*topStack)) {
-    item->count = 1;
-    *topStack = item; //fist item
+    new_item->count = 1;
+    *topStack = new_item; //fist item
     return;
   }
   if (((*topStack)->count + 1 ) > MAX) {
     return;//stack overflow
   }
 
-  item->count = (*topStack)->count + 1;
-  item->prev = *topStack;
-  *topStack = item;
+  new_item->count = (*topStack)->count + 1;
+  new_item->prev = *topStack;
+  *topStack = new_item;
 }
 
 TItemStack* pop(TItemStack **topStack) {
