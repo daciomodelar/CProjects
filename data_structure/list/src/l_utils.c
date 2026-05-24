@@ -12,9 +12,11 @@ void print_list(const TItemList *list) {
 
   printf("Pointer Table -> %p\n", (void *)aux);
 
-  printf("|%-2s|%-4s|%-25s|%-10s|\n", "#", "ID", "Clube", "Pontos");
-  printf("--------------------------------------------------------------\n");
-
+  printf("|%-2s|%-4s|%-25s|%-8s|\n", "#", "ID", "Clube", "Pontos");
+  for (int i = 0; i < 44; i++)
+    printf("-");
+  printf("\n");
+  
   short int pos = 1;
 
   while (aux) {
@@ -25,7 +27,7 @@ void print_list(const TItemList *list) {
 
     printf("%-25s|", aux->data->nome);
 
-    printf("%10d|\n", aux->data->pontos);
+    printf("%8d|\n", aux->data->pontos);
 
     aux = aux->next;
   }
@@ -40,7 +42,7 @@ void print_list_pointer(const TItemList *list) {
   printf("Pointer Table -> %p\n", (void *)aux);
 
   printf("|%-25s|%-15s|%-15s|%-15s|\n", "Clube", "Prev", "Current", "Next");
-  for (int i = 0; i < 85; i++)
+  for (int i = 0; i < 75; i++)
     printf("-");
   printf("\n");
 
@@ -73,7 +75,7 @@ void print_sorted_list(const TItemList *list) {
     aux = aux->next;
   }
   print_list(sorted_list);
-  free_list(sorted_list);
+  free_list(&sorted_list);
 }
 
 // Imprime um item no console

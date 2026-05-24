@@ -141,8 +141,10 @@ TItemList *find_item_by_name(const char *nome, TItemList *list) {
 
 // remove um item de uma lista singularmente lincada
 void remove_item_sing_linked(int id, TItemList **list) {
+  
   if (!*list)
     return;
+
   TItemList *_current = *list;
   TItemList *_prev = NULL;
   while (_current) {
@@ -217,10 +219,10 @@ void remove_item_dup_linked(TItemList *_remove, TItemList **list) {
 }
 
 // Liebra as memórias dos itens da lista
-void free_list(TItemList *list) {
+void free_list(TItemList **list) {
   if (!list)
     return;
-  TItemList *aux = list;
+  TItemList *aux = *list;
   TItemList *_free = NULL;
   while (aux) {
     _free = aux;
@@ -228,6 +230,7 @@ void free_list(TItemList *list) {
     free(_free->data); // libera a memória do clube
     free(_free);
   }
+  *list = NULL; // opcional: define a lista como NULL após liberar
 }
 
 // Gera o próximo ID utilizando um variável estática global

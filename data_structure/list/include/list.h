@@ -23,7 +23,7 @@ TItemList *find_item(const int id, TItemList *list);
 TItemList *find_item_by_name(const char *nome, TItemList *list);
 void remove_item_sing_linked(int id, TItemList **list);
 void remove_item_dup_linked(TItemList *_remove, TItemList **list);
-void free_list(TItemList *list);
+void free_list(TItemList **list);
 TItemList *new_item_list(int _id, const char *nome, int pontos);
 int get_next_id();
 
