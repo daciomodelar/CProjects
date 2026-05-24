@@ -10,6 +10,7 @@ void print_stack(TItemStack *topStack) {
     printf("%-20s | %6d | %16p | %16p\n", aux->name, aux->count, aux, aux->prev);
     aux = aux->prev;
   }
+  printf("\n");
 }
 
 void print_item(TItemStack *item) {
