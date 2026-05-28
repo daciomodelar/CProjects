@@ -132,27 +132,27 @@ int main() {
 
   // BIT_0(1<<0) - liga bit 0 do PORT1
   printf("(PORT1 |= BIT_0)-> Ligar BIT_0 do PORT1\n");
-  PORT1 |= BIT_0; // Equivale a PORT1 = PORT1 | BIT_0, operação PORT1 = 00000000b | 00000001b -> PORT1 = 00000001b
+  PORT1 |= BIT_0; // Equivale a PORT1 = PORT1 | BIT_0, operação PORT1 = 0b00000000 | 0b00000001 -> PORT1 = 0b00000001
   byte_to_binary(PORT1, string_binaria);
   printf("Novo valor do PORT1: %s\n", string_binaria);
   printf("\n");
 
   // BIT_3(1<<3) - desliga bit 3 do PORT2
   printf("(PORT2 &= ~BIT_3)-> Desligar BIT_3 do PORT2\n");
-  PORT2 &= ~BIT_3; // Equivale a PORT2 = PORT2 & ~BIT_3, operação PORT2 = 00001010b & 11110111b -> PORT2 = 00000010b
+  PORT2 &= ~BIT_3; // Equivale a PORT2 = PORT2 & ~BIT_3, operação PORT2 = 0b00001010 & 0b11110111 -> PORT2 = 0b00000010
   byte_to_binary(PORT2, string_binaria);
   printf("Novo valor de PORT2: %s\n", string_binaria);
   printf("\n");
 
   // BIT_5(1<<5) - alterna o bit 5 do PORT3
   printf("(PORT3 ^= BIT_5)-> Toggle o estado do BIT_5 do PORT3\n");
-  PORT3 ^= BIT_5; // Equivale a PORT3 = PORT3 ^ BIT_5, operação PORT3 = 00100100b ^ 00100000b -> PORT3 = 00000100b
+  PORT3 ^= BIT_5; // Equivale a PORT3 = PORT3 ^ BIT_5, operação PORT3 = 0b00100100 ^ 0b00100000 -> PORT3 = 0b00000100
   byte_to_binary(PORT3, string_binaria);
   printf("Toggle 1 valor de PORT3: %s\n", string_binaria);
-  PORT3 ^= BIT_5;
+  PORT3 ^= BIT_5; // Equivale a PORT3 = PORT3 ^ BIT_5, operação PORT3 = 0b00000100 ^ 0b00100000 -> PORT3 = 0b00100100
   byte_to_binary(PORT3, string_binaria);
   printf("Toggle 2 valor de PORT3: %s\n", string_binaria);
-  PORT3 ^= BIT_5;
+  PORT3 ^= BIT_5;// Equivale a PORT3 = PORT3 ^ BIT_5, operação PORT3 = 0b00100100 ^ 0b00100000 -> PORT3 = 0b00000100
   byte_to_binary(PORT3, string_binaria);
   printf("Toggle 3 valor de PORT3: %s\n", string_binaria);
   printf("\n");
