@@ -48,7 +48,7 @@ int main() {
   unsigned char value4 = 2;   // 0 a 255
   signed char value2 = -127;  //-127 a 127
   signed char value3 = 127;
-  signed char value5 = 2; //-128 a 127
+  signed char value5 = 2; //-127 a 127
   char ch1 = 'A';
   char ch2 = 65;
   unsigned char ch3 = 0b00000010;
@@ -67,8 +67,6 @@ int main() {
   printf("%8d %25s %s\n", ch3, "(unsigned char) in binary", to_binary(ch3));
   printf("\n");
 
-  printf("Leitura de bits usando shift e AND:\n");
-  printf("-------------------------------------------------\n");
 
   printf("(1<<0) - %s - %d\n", to_binary(1 << 0), (1 << 0));
   printf("(1<<1) - %s - %d\n", to_binary(1 << 1), (1 << 1));
@@ -76,10 +74,15 @@ int main() {
   printf("(1<<3) - %s - %d\n", to_binary(1 << 3), (1 << 3));
   printf("(1<<4) - %s - %d\n", to_binary(1 << 4), (1 << 4));
   printf("(1<<5) - %s - %d\n", to_binary(1 << 5), (1 << 5));
+  printf("(1<<6) - %s - %d\n", to_binary(1 << 6), (1 << 6));
+  printf("(1<<7) - %s - %d\n", to_binary(1 << 7), (1 << 7));
   printf("(2<<2) - %s - %d\n", to_binary(2 << 2), (2 << 2));
   printf("(3<<2) - %s - %d\n", to_binary(3 << 2), (3 << 2));
   printf("\n");
 
+  printf("Leitura de bits usando shift e AND:\n");
+  printf("-------------------------------------------------\n");
+  
   unsigned char value = 47; // 0 a 255
   char *binary_1 = "0b00000001";
 

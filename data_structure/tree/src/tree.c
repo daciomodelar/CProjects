@@ -28,6 +28,8 @@ void insert_node(TNode **root, int data) {
   }
 }
 
+//Os nós são visitados antes dos filhos, ou seja, 
+//a raiz é processada primeiro, seguida pela subárvore esquerda e depois pela subárvore direita.
 void pre_order(TNode *root) {
   if (root != NULL) {
     printf("%d ", root->data);
@@ -36,6 +38,8 @@ void pre_order(TNode *root) {
   }
 }
 
+//Os nós são visitados em ordem, ou seja, a subárvore esquerda é processada primeiro, 
+//seguida pela raiz e depois pela subárvore direita.
 void in_order(TNode *root) {
   if (root != NULL) {
     in_order(root->left);
@@ -44,6 +48,8 @@ void in_order(TNode *root) {
   }
 }
 
+//Os nós são visitados após os filhos, ou seja, a subárvore esquerda é processada primeiro,
+//seguida pela subárvore direita e depois pela raiz.
 void post_order(TNode *root) {
   if (root != NULL) {
     post_order(root->left);

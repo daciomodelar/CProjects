@@ -70,5 +70,7 @@ int main()
 
     } while (strcmp(text, "done"));
     
+    printf("Fim do programa\n");
+    
 }
 
