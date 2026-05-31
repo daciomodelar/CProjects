@@ -6,7 +6,7 @@ APP="${1:-"all"}"
 
 validate_input() {
 
-    local valid_apps=("all" "list" "queue" "stack", "tree" )
+    local valid_apps=("all" "list" "queue" "stack" "tree" )
 
     # shellcheck disable=SC2076
     if [[ ! " ${valid_apps[*]} " =~ " $APP " ]]; then
