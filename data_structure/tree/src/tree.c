@@ -21,10 +21,10 @@ void insert_node(TNode **root, int data) {
     *root = create_node(data);
     return;
   }
-  if (data < (*root)->data) {
-    insert_node(&(*root)->left, data);
-  } else {
+  if (data > (*root)->data) {
     insert_node(&(*root)->right, data);
+  } else {
+    insert_node(&(*root)->left, data);
   }
 }
 
@@ -69,10 +69,41 @@ TNode *search_node(TNode *root, int data) {
   }
 }
 
+void remove_node(TNode **root, int data) {
+  if (*root == NULL) {
+    return;
+  }
+  if (data < (*root)->data) {
+    remove_node(&(*root)->left, data);
+  } else if (data > (*root)->data) {
+    remove_node(&(*root)->right, data);
+  } else {// Nesse ponto encontramos o nó a ser removido
+    // Node with only one child or no child
+    if ((*root)->left == NULL) {
+      TNode *temp = (*root)->right;
+      free(*root);
+      *root = temp;
+    } else if ((*root)->right == NULL) {
+      TNode *temp = (*root)->left;
+      free(*root);
+      *root = temp;
+    } else {
+      // Node with two children: Get the inorder successor
+      TNode *temp = (*root)->right;
+      while (temp->left != NULL) {
+        temp = temp->left;
+      }
+      (*root)->data = temp->data; // Copy the inorder successor's content to this node
+      remove_node(&(*root)->right, temp->data); // Delete the inorder successor
+    }
+  }
+}
+
 void free_tree(TNode *root) {
   if (root != NULL) {
     free_tree(root->left);
     free_tree(root->right);
+    printf("Liberando nó com valor: %d\n", root->data);
     free(root);
   }
 }

@@ -9,6 +9,7 @@ typedef struct node_tree {
 
 TNode* create_node(int data);
 void insert_node(TNode **root, int data);
+void remove_node(TNode **root, int data);
 void pre_order(TNode *root);
 void in_order(TNode *root);
 void post_order(TNode *root);
