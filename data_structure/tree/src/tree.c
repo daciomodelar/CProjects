@@ -103,7 +103,6 @@ void free_tree(TNode *root) {
   if (root != NULL) {
     free_tree(root->left);
     free_tree(root->right);
-    printf("Liberando nó com valor: %d\n", root->data);
     free(root);
   }
 }
