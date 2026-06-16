@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * Create a new node with the specified data.
+ * @param data The data to be stored in the node.
+ */
 TNode *create_node(int data) {
   TNode *new_node = (TNode *)malloc(sizeof(TNode));
   if (new_node == NULL) {
@@ -16,6 +20,11 @@ TNode *create_node(int data) {
   return new_node;
 }
 
+/** 
+* Insert a node with the specified data into the binary tree.
+* @param root Pointer to the root of the tree.
+* @param data The data to be inserted.
+*/
 void insert_node(TNode **root, int data) {
   if (*root == NULL) {
     *root = create_node(data);
@@ -28,8 +37,11 @@ void insert_node(TNode **root, int data) {
   }
 }
 
-//Os nós são visitados antes dos filhos, ou seja, 
-//a raiz é processada primeiro, seguida pela subárvore esquerda e depois pela subárvore direita.
+/** 
+* Os nós são visitados antes dos filhos, ou seja, 
+* a raiz é processada primeiro, seguida pela subárvore esquerda e depois pela subárvore direita.
+* @param root Ponteiro para a raiz da árvore.
+*/
 void pre_order(TNode *root) {
   if (root != NULL) {
     printf("%d ", root->data);
@@ -38,8 +50,11 @@ void pre_order(TNode *root) {
   }
 }
 
-//Os nós são visitados em ordem, ou seja, a subárvore esquerda é processada primeiro, 
-//seguida pela raiz e depois pela subárvore direita.
+/** 
+* Os nós são visitados em ordem, ou seja, a subárvore esquerda é processada primeiro, 
+* seguida pela raiz e depois pela subárvore direita.
+* @param root Ponteiro para a raiz da árvore.
+*/
 void in_order(TNode *root) {
   if (root != NULL) {
     in_order(root->left);
@@ -48,8 +63,11 @@ void in_order(TNode *root) {
   }
 }
 
-//Os nós são visitados após os filhos, ou seja, a subárvore esquerda é processada primeiro,
-//seguida pela subárvore direita e depois pela raiz.
+/**
+* Os nós são visitados após os filhos, ou seja, a subárvore esquerda é processada primeiro,
+* seguida pela subárvore direita e depois pela raiz.
+* @param root Ponteiro para a raiz da árvore.
+*/
 void post_order(TNode *root) {
   if (root != NULL) {
     post_order(root->left);
@@ -58,6 +76,13 @@ void post_order(TNode *root) {
   }
 }
 
+
+/**
+ * Search for a node with the specified data in the binary tree.
+ * @param root Pointer to the root of the tree.
+ * @param data The data to search for.
+ * @return Pointer to the node if found, otherwise NULL.
+ */
 TNode *search_node(TNode *root, int data) {
   if (root == NULL || root->data == data) {
     return root;
@@ -69,6 +94,11 @@ TNode *search_node(TNode *root, int data) {
   }
 }
 
+/**
+ * Remove a node with the specified data from the binary tree.
+ * @param root Pointer to the root of the tree.
+ * @param data The data of the node to be removed.
+ */
 void remove_node(TNode **root, int data) {
   if (*root == NULL) {
     return;
@@ -99,6 +129,10 @@ void remove_node(TNode **root, int data) {
   }
 }
 
+/**
+ * Free the memory allocated for the binary tree.
+ * @param root Pointer to the root of the tree.
+ */
 void free_tree(TNode *root) {
   if (root != NULL) {
     free_tree(root->left);
