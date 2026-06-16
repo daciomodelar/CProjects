@@ -45,7 +45,7 @@ void test_add_multiple_nodes(TNode *root) {
 }
 
 void test_search_existent_node(TNode *root) {
-  printf("Teste de busca por nó nexistente\n");
+  printf("Teste de busca por nó existente\n");
   TNode *node_60 = search_node(root, 60);
   TEST("Nó 60 encontrado", node_60 != NULL && node_60->data == 60);
   printf("\n");
@@ -135,7 +135,7 @@ int main() {
   printf("\n=============================\n");
 
   TNode *root = NULL;
-  int data_values[] = {50, 30, 70, 80, 20, 40, 60, 10};
+  int data_values[] = {50, 30, 70, 80, 20, 40, 60, 10, 35, 45, 63};
   int len = sizeof(data_values) / sizeof(data_values[0]);
   printf("Dados: ");
   for (int i = 0; i < len; i++) {
