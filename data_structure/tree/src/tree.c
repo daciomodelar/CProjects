@@ -21,10 +21,10 @@ TNode *create_node(int data) {
 }
 
 /** 
-* Insert a node with the specified data into the binary tree.
-* @param root Pointer to the root of the tree.
-* @param data The data to be inserted.
-*/
+ * Insert a node with the specified data into the binary tree.
+ * @param root Pointer to the root of the tree.
+ * @param data The data to be inserted.
+ */
 void insert_node(TNode **root, int data) {
   if (*root == NULL) {
     *root = create_node(data);
@@ -38,10 +38,10 @@ void insert_node(TNode **root, int data) {
 }
 
 /** 
-* Os nós são visitados antes dos filhos, ou seja, 
-* a raiz é processada primeiro, seguida pela subárvore esquerda e depois pela subárvore direita.
-* @param root Ponteiro para a raiz da árvore.
-*/
+ * Os nós são visitados antes dos filhos, ou seja, 
+ * a raiz é processada primeiro, seguida pela subárvore esquerda e depois pela subárvore direita.
+ * @param root Ponteiro para a raiz da árvore.
+ */
 void pre_order(TNode *root) {
   if (root != NULL) {
     printf("%d ", root->data);
@@ -51,10 +51,10 @@ void pre_order(TNode *root) {
 }
 
 /** 
-* Os nós são visitados em ordem, ou seja, a subárvore esquerda é processada primeiro, 
-* seguida pela raiz e depois pela subárvore direita.
-* @param root Ponteiro para a raiz da árvore.
-*/
+ * Os nós são visitados em ordem, ou seja, a subárvore esquerda é processada primeiro, 
+ * seguida pela raiz e depois pela subárvore direita.
+ * @param root Ponteiro para a raiz da árvore.
+ */
 void in_order(TNode *root) {
   if (root != NULL) {
     in_order(root->left);
@@ -64,10 +64,10 @@ void in_order(TNode *root) {
 }
 
 /**
-* Os nós são visitados após os filhos, ou seja, a subárvore esquerda é processada primeiro,
-* seguida pela subárvore direita e depois pela raiz.
-* @param root Ponteiro para a raiz da árvore.
-*/
+ * Os nós são visitados após os filhos, ou seja, a subárvore esquerda é processada primeiro,
+ * seguida pela subárvore direita e depois pela raiz.
+ * @param root Ponteiro para a raiz da árvore.
+ */
 void post_order(TNode *root) {
   if (root != NULL) {
     post_order(root->left);

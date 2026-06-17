@@ -101,7 +101,7 @@ void test_remove_leaf_node(TNode *root) {
 void test_free_tree(TNode *root) {
   printf("Teste de liberação de memória(free) da árvore\n");
   free_tree(root);
-  TEST("Árvore liberada", 1);
+  TEST("Arvore liberada", 1);
   printf("\n");
 }
 
@@ -135,7 +135,7 @@ int main() {
   printf("\n=============================\n");
 
   TNode *root = NULL;
-  int data_values[] = {50, 30, 70, 80, 20, 40, 60, 10, 35, 45, 63};
+  int data_values[] = {50, 30, 70, 80, 20, 85, 40, 60, 90, 10, 35, 45, 65};
   int len = sizeof(data_values) / sizeof(data_values[0]);
   printf("Dados: ");
   for (int i = 0; i < len; i++) {
@@ -145,15 +145,15 @@ int main() {
   }
   printf("\n\n");
 
-  test_add_only_one_node();
+  //test_add_only_one_node();
   
   test_add_multiple_nodes(root);
 
   test_print_tree(root);
 
-  test_search_existent_node(root);
+  //test_search_existent_node(root);
 
-  test_search_non_existent_node(root);
+  //test_search_non_existent_node(root);
 
   test_in_order_traversal(root);
 
@@ -161,21 +161,21 @@ int main() {
 
   test_post_order_traversal(root);
   
-  test_remove_node(root);
+  //test_remove_node(root);
 
-  test_print_tree(root);
+  //test_print_tree(root);
 
   test_remove_node_with_two_children(root);
 
   test_print_tree(root);
 
-  test_remove_node_with_one_child(root);
+  //test_remove_node_with_one_child(root);
 
-  test_print_tree(root);
+  //test_print_tree(root);
 
-  test_remove_leaf_node(root);
+  //test_remove_leaf_node(root);
 
-  test_print_tree(root);
+  //test_print_tree(root);
 
   test_free_tree(root);
 
