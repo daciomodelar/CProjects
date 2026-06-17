@@ -145,15 +145,15 @@ int main() {
   }
   printf("\n\n");
 
-  //test_add_only_one_node();
+  test_add_only_one_node();
   
   test_add_multiple_nodes(root);
 
   test_print_tree(root);
 
-  //test_search_existent_node(root);
+  test_search_existent_node(root);
 
-  //test_search_non_existent_node(root);
+  test_search_non_existent_node(root);
 
   test_in_order_traversal(root);
 
@@ -161,21 +161,21 @@ int main() {
 
   test_post_order_traversal(root);
   
-  //test_remove_node(root);
+  test_remove_node(root);
 
-  //test_print_tree(root);
+  test_print_tree(root);
 
   test_remove_node_with_two_children(root);
 
   test_print_tree(root);
 
-  //test_remove_node_with_one_child(root);
+  test_remove_node_with_one_child(root);
 
-  //test_print_tree(root);
+  test_print_tree(root);
 
-  //test_remove_leaf_node(root);
+  test_remove_leaf_node(root);
 
-  //test_print_tree(root);
+  test_print_tree(root);
 
   test_free_tree(root);
 
